@@ -13,6 +13,7 @@
 # eclipse ignore
 .project
 .classpath
+.settings
 # IDEA ignore
 .idea
 .class

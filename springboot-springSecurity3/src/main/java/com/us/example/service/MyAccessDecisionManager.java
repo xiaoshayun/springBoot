@@ -24,26 +24,28 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
 
-        HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
+    	HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
         String url, method;
         AntPathRequestMatcher matcher;
         for (GrantedAuthority ga : authentication.getAuthorities()) {
-            if (ga instanceof MyGrantedAuthority) {
+            if (ga instanceof MyGrantedAuthority) {//可能是对象,也可以是其他的字符串等
                 MyGrantedAuthority urlGrantedAuthority = (MyGrantedAuthority) ga;
                 url = urlGrantedAuthority.getPermissionUrl();
                 method = urlGrantedAuthority.getMethod();
                 matcher = new AntPathRequestMatcher(url);
-                if (matcher.matches(request)) {
+                if (matcher.matches(request)) {	//request中的url是否在权限配置中含有
                     //当权限表权限的method为ALL时表示拥有此路径的所有请求方式权利。
-                    if (method.equals(request.getMethod()) || "ALL".equals(method)) {
+                    if (method.equals(request.getMethod()) || "ALL".equals(method)) {//方法拦截
                         return;
                     }
+                }else{
+                	return;
                 }
             } else if (ga.getAuthority().equals("ROLE_ANONYMOUS")) {//未登录只允许访问 login 页面
-                matcher = new AntPathRequestMatcher("/login");
-                if (matcher.matches(request)) {
+                //matcher = new AntPathRequestMatcher("/login");
+            	// if (matcher.matches(request)) {
                     return;
-                }
+                // }
             }
         }
         throw new AccessDeniedException("no right");

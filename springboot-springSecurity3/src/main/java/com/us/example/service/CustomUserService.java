@@ -37,7 +37,7 @@ public class CustomUserService implements UserDetailsService { //自定义UserDe
                 if (permission != null && permission.getName() != null) {
 
                     GrantedAuthority grantedAuthority = new MyGrantedAuthority(permission.getUrl(), permission.getMethod());
-                    grantedAuthorities.add(grantedAuthority);
+                    grantedAuthorities.add(grantedAuthority);//加入的可能是对象,也可能是其他
                 }
             }
             return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
