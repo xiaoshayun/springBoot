@@ -13,23 +13,21 @@ public class DataSourceConfig {
 	@Autowired
     private Environment env;
 	
-    @Bean(name="dataSource")
+	@Bean(name="dataSource")
     public ComboPooledDataSource dataSource() throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setDriverClass(env.getProperty("jdbc.driverClassName"));
-        dataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-        dataSource.setUser(env.getProperty("jdbc.username"));
-        dataSource.setPassword(env.getProperty("jdbc.password"));
+        dataSource.setDriverClass(env.getProperty("ms.db.driverClassName"));
+        dataSource.setJdbcUrl(env.getProperty("ms.db.url"));
+        dataSource.setUser(env.getProperty("ms.db.username"));
+        dataSource.setPassword(env.getProperty("ms.db.password"));
         dataSource.setMaxPoolSize(20);
         dataSource.setMinPoolSize(5);
         dataSource.setInitialPoolSize(10);
         dataSource.setMaxIdleTime(300);
         dataSource.setAcquireIncrement(5);
         dataSource.setIdleConnectionTestPeriod(60);
-        
         return dataSource;
     }
-    
     
 }
 

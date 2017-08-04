@@ -39,18 +39,18 @@
     </sql>
     	
     <select id="getByMap" parameterType="map" resultMap="userMap">
-    	SELECT u.* FROM user u
+    	SELECT u.* FROM sys_user u
 		<include refid="queryCondition" />
 		ORDER  by id DESC 
     </select>
 
     
     <select id="getById" parameterType="int" resultMap="userMap">
-    	SELECT * FROM user WHERE id =#{id}
+    	SELECT * FROM sys_user WHERE id =#{id}
     </select>
 
 	<select id="getByUserName" parameterType="String" resultMap="userMap">
-		select u.* from user u
+		select u.* from sys_user u
 		where username= #{username}
 	</select>
 
@@ -58,7 +58,7 @@
         <selectKey resultType="int"  order="AFTER" keyProperty="id" >
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		INSERT INTO user(
+		INSERT INTO sys_user(
 			id,
 			cnname,
 			username,
@@ -86,7 +86,7 @@
     </insert>
     
     <update id="update" parameterType="com.yy.example.bean.User">
-		UPDATE user 
+		UPDATE sys_user 
 		  <set>
 			<if test = "cnname != null and cnname != ''">	
 			cnname = #{cnname},
@@ -108,7 +108,7 @@
     </update>
     
     <delete id="delete" parameterType="int">
-    	DELETE FROM user WHERE id = #{id}
+    	DELETE FROM sys_user WHERE id = #{id}
     </delete>
         
 </mapper>

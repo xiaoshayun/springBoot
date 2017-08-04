@@ -1,8 +1,6 @@
 package com.yy.example.config;
 
 
-import com.yy.example.security.UrlUserService;
-import com.yy.example.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+
+import com.yy.example.security.UrlFilterSecurityInterceptor;
+import com.yy.example.security.UrlUserService;
+import com.yy.example.utils.MD5Util;
 
 
 /**
@@ -26,7 +29,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+	@Autowired
+	private UrlFilterSecurityInterceptor myFilterSecurityInterceptor;
     @Autowired
     private UrlUserService urlUserService;
     @Autowired
@@ -55,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .and()
                 .httpBasic();
+        http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     }
 
     @Override
